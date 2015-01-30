@@ -38,7 +38,6 @@ public class IntListTest {
      */
 
     //TODO:  Create testSquareListRecursive()
-	@Test
     	public void testSquareListRecursive() {
 		IntList L = IntList.list(1, 2, 3);
       		IntList result = IntList.squareListRecursive(L);
@@ -46,7 +45,6 @@ public class IntListTest {
       		assertEquals(IntList.list(1, 4, 9), result);
 }
     //TODO:  Create testDcatenate and testCatenate
-	@Test
 	public void testdcatenate() {
 		IntList L = IntList.list(1, 2, 3);
 		IntList H = IntList.list(4, 5, 6);
@@ -54,7 +52,6 @@ public class IntListTest {
 		assertEquals(IntList.list(1, 2, 3, 4, 5, 6), result);
 		assertEquals(result, L);
 }
-	@Test
 	public void testcatenate() {
 		IntList L = IntList.list(1, 2, 3);
 		IntList H = IntList.list(4, 5, 6);
