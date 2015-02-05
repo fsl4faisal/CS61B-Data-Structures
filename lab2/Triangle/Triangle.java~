@@ -31,5 +31,9 @@ public class Triangle {
 		return "Isosceles";}
 	else {
 		return "Scalene";}
+
+    // Return triangle type
+    //TODO:  return either "Equilateral", "Isosceles", or "Scalene"
+    return null; //REPLACE THIS LINE
   }
 }

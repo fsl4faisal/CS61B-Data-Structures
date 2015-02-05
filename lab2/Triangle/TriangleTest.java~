@@ -40,7 +40,7 @@ public class TriangleTest {
     }
     @Test
     public void testInvalid() {
-    	Triangle t = new Triangle(10,10,20);
+    	Triangle t = new Triangle(10,20,20);
 	String result = t.triangleType();
 	assertEquals("The lengths of the triangles do not form a valid triangle!", result);
     }
