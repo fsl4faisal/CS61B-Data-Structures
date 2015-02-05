@@ -105,7 +105,6 @@ public class Calculator {
     public void clearHistory() {
         int temp = length;
         for (int i = 1; i < temp; i++) {
-            System.out.println(length);
             undoEquation();
         }
     history = history.next;
