@@ -1,6 +1,14 @@
 import list.EquationList;
 
 public class Calculator {
+    public EquationList history;
+    public int length;
+    public static void main(String[] args) {
+        int x = 1;
+        x = (~x) + 1;
+        System.out.println(x);
+    
+    }
     // YOU MAY WISH TO ADD SOME FIELDS
 
     /**
@@ -12,8 +20,12 @@ public class Calculator {
      * @return the sum of x and y
      **/
     public int add(int x, int y) {
-        // YOUR CODE HERE
-        return -1;
+        int sum = x ^ y;
+        int carry = (x & y) << 1;
+        if (carry != 0) {
+            return add(sum, carry);
+        }
+        return sum;
     }
 
     /**
@@ -25,10 +37,14 @@ public class Calculator {
      * @return the product of x and y
      **/
     public int multiply(int x, int y) {
-        // YOUR CODE HERE
-        return -1;
+        int neg1 = add((~1), 1);
+        if (y == 1) {
+            return x;
+        }
+        else {
+            return add(x, multiply(x, add(y, neg1)));
+        }
     }
-
     /**
      * TASK 5A: CALCULATOR HISTORY - IMPLEMENTING THE HISTORY DATA STRUCTURE
      * saveEquation() updates calculator history by storing the equation and 
@@ -39,7 +55,9 @@ public class Calculator {
      * @param result is an integer corresponding to the result of the equation
      **/
     public void saveEquation(String equation, int result) {
-        // YOUR CODE HERE
+        history = new EquationList(equation, result, history);
+        length += 1;
+
     }
 
     /**
@@ -50,7 +68,7 @@ public class Calculator {
      * Ex   "1 + 2 = 3"
      **/
     public void printAllHistory() {
-        // YOUR CODE HERE
+        printHistory(length);
     }
 
     /**
@@ -61,7 +79,14 @@ public class Calculator {
      * Ex   "1 + 2 = 3"
      **/
     public void printHistory(int n) {
-        // YOUR CODE HERE
+        if (n == 0 || length ==0) {
+            return;
+        }
+        EquationList temp = history;
+        for (int i=0; i < n; i++) {
+            System.out.println(temp.equation + " = " + temp.result);
+            temp = temp.next;
+        }
     }    
 
     /**
@@ -69,7 +94,8 @@ public class Calculator {
      * undoEquation() removes the most recent equation we saved to our history.
     **/
     public void undoEquation() {
-        // YOUR CODE HERE
+        history = new EquationList(history.next.equation, history.next.result, history.next.next);
+        length -= 1;
     }
 
     /**
@@ -77,7 +103,13 @@ public class Calculator {
      * clearHistory() removes all entries in our history.
      **/
     public void clearHistory() {
-        // YOUR CODE HERE
+        int temp = length;
+        for (int i = 1; i < temp; i++) {
+            System.out.println(length);
+            undoEquation();
+        }
+    history = history.next;
+    length -= 1;
     }
 
     /**
@@ -87,8 +119,16 @@ public class Calculator {
      * @return the sum of all of the results in history
      **/
     public int cumulativeSum() {
-        // YOUR CODE HERE
-        return -1;
+        if (length == 0) {
+            return 0;
+        }
+        EquationList temp = history;
+        int sum = 0;
+        for (int i = 0; i < length; i++) {
+            sum += temp.result;
+            temp = temp.next;
+        }
+        return sum;
     }
 
     /**
@@ -98,7 +138,15 @@ public class Calculator {
      * @return the product of all of the results in history
      **/
     public int cumulativeProduct() {
-        // YOUR CODE HERE
-        return -1;
+        if (length == 0) {
+            return 1;
+        }
+        EquationList temp = history;
+        int product = 1;
+        for (int i = 0; i < length; i++) {
+            product *= temp.result;
+            temp = temp.next;
+        }
+        return product;
     }
 }
