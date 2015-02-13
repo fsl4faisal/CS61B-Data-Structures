@@ -16,6 +16,12 @@ public class TestDoubleChain {
         assertEquals(null, d.getFront().next);
     }
 
+    @Test
+    public void testConstructor1() {
+        DoubleChain d = new DoubleChain(5);
+        d.insertFront(2);
+        assertEquals(2, d.getFront().val, 1e-11);
+    }
     /** Tests some basic DoubleChain operations. */
     @Test
     public void testBasicOperations() {
