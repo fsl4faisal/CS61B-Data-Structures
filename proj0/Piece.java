@@ -1,11 +1,9 @@
-
-
 public class Piece {
 	private boolean isFire;
 	private Board b;
 	private int x;
 	private int y;
-	public String type;
+	private String type;
 	private boolean crowned;
 	private boolean hasCaptured;
 
@@ -16,6 +14,92 @@ public class Piece {
 		this.y = y;
 		this.type = type;
 	}
+
+	public void move(int x, int y) {
+		int xSum = this.x + x;
+		int ySum = this.y + y;
+		if ((x == this.x + 1 && y == this.y + 1) || (x == this.x - 1 && y == this.y + 1) || (x == this.x - 1 && y == this.y - 1) || (x == this.x + 1 && y == this.y - 1)) {
+			b.remove(this.x, this.y);
+			this.x = x;
+			this.y = y;
+			b.place(this, x, y);
+			System.out.println("move");
+			return;
+		}
+		if ((x == this.x + 2 && y == this.y + 2) || (x == this.x - 2 && y == this.y + 2) || (x == this.x - 2 && y == this.y - 2) || (x == this.x + 2 && y == this.y - 2)) {
+			if (this.type.equals("bomb")) {
+					b.remove((xSum / 2), (ySum / 2));
+					b.remove(this.x, this.y);
+					int h = x + 2;
+					int p = x - 1;
+					int a = y - 1;
+					int c = y + 2;
+					if (x == 0) {
+						p = x;
+					}
+					if (x == 7) {
+						h = x + 1;
+					}
+					if (y == 0) {
+						a = y;
+					}
+					if (y == 7) {
+						c = y + 1;
+					}
+					for (int i = (p); i < (h); i++) {
+            			for (int j = a; j < c; j++) {
+            				if (b.pieceAt(i, j) != null) {
+            					if (!b.pieceAt(i, j).type.equals("shield")) {
+            						b.remove(i, j);	
+            					}
+            				}
+            			}
+            		}
+            	}
+            else {
+            	b.remove((xSum / 2), (ySum / 2));
+            	b.remove(this.x, this.y);
+				this.x = x;
+				this.y = y;
+				b.place(this, x, y);
+            }
+        }
+          else {
+          	System.out.println("jk here");
+            		b.remove(this.x, this.y);
+            		this.x = x;
+            		this.y = y;
+            		b.place(this, this.x, this.y);
+            		b.remove((xSum / 2), (ySum / 2));
+            		hasCaptured = true;
+            	}
+		
+		} 	
+
+
+
+	/* private validMove(this.x, this.y, x, y) {
+		if (b.pieceAt(this.x, this.y).isKing()) {
+			if ((x == this.x + 1 && y == this.y + 1) || (x == this.x - 1 && y == this.y + 1) || (x == this.x - 1 && y == this.y - 1) || (x == this.x + 1 && y == this.y - 1)) {
+        		return true;
+		}
+	}
+		if (b.pieceAt(this.x, this.y).isFire()) {
+			if ((x == this.x + 1 && y == this.y + 1) || (x == this.x - 1 && y == this.y + 1)) {
+            	return true;
+		}
+	}
+		if (b.pieceAt(this.x, this.y).isFire == false) {
+			if ((x == this.x - 1 && y == this.y - 1) || (x == this.x + 1 && y == this.y - 1)) {
+            	return true;
+		}
+	}
+}
+
+
+  */
+
+
 
 	public boolean isFire() {
 		if (isFire == true) {
@@ -52,89 +136,4 @@ public class Piece {
 		}
 		return false;
 	}
-
-	public void move(int x, int y) {
-		int xSum = x + this.x;
-		int ySum = y + this.y;
-		int tempx = this.x;
-		int tempy = this.y;
-			if (canCapture(this.x, this.y, x, y))	 {
-				System.out.println("enter");
-				if (this.type.equals("bomb")) {
-					System.out.println("bomb");
-					b.remove((xSum / 2), (ySum / 2));
-					b.remove(this.x, this.y);
-					int h = x + 2;
-					int p = x - 1;
-					int a = y - 1;
-					int c = y + 2;
-					if (x == 0) {
-						p = x;
-					}
-					if (x == 7) {
-						h = x + 1;
-					}
-					if (y == 0) {
-						a = y;
-					}
-					if (y == 7) {
-						c = y + 1;
-					}
-					for (int i = (p); i < (h); i++) {
-            			for (int j = a; j < c; j++) {
-            				if (b.pieces[i][j] != null) {
-            					if (!b.pieces[i][j].type.equals("shield")) {
-            						b.remove(i, j);	
-            					}
-            				}
-            			}
-            		}
-            	}
-            	else {
-            		System.out.println("else");
-            		b.remove(tempx, tempy);
-            		this.x = x;
-            		this.y = y;
-            		b.place(this, this.x, this.y);
-            		b.remove((xSum / 2), (ySum / 2));
-            		hasCaptured = true;
-            	}
-			}
-			else {
-				b.remove(tempx, tempy);
-				this.x = x;
-				this.y = y;
-				b.place(this, x, y);
-				hasCaptured = false;
-				System.out.println("hello");
-	}
-	}
-
-	private boolean canCapture(int xi, int yi, int xf, int yf) {
-        int slope = ((yf - yi) / (xf - xi));
-        int midx = ((xi + xf) / 2);
-        int midy = ((yi + yf) / 2);	
-        if ((yf - yi) == 1 || (yf - yi) == -1 || (xf - xi) == 1 || (xf - xi) == -1) {
-        	return false;
-        }
-        if ((slope == -1 || slope == 1) && b.pieces[xf][yf] == null && b.pieces[x][y] != null) {
-            return true;
-        }
-        return false;
-    }
-
-
-	public boolean hasCaptured() {
-		if (hasCaptured == true) {
-			return true;
-		}
-		else {
-			return false;
-		}
-	}
-
-	public void doneCapturing() {
-		hasCaptured = false;
-	}
-
 }
