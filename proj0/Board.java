@@ -219,6 +219,9 @@ public class Board {
         	if ((x > 7) || (x < 0) || (y > 7) || (y < 0) || (p == null)) {
         		return;
         	}
+            if (pieces[x][y] != null) {
+                remove(x, y);
+            }
         	StdDrawPlus.picture(x + .5, y + .5, imgFile(p), 1, 1);
             pieces[x][y] = p;
         }
