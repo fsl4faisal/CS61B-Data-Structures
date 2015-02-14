@@ -1,7 +1,7 @@
 public class Board {
 
 	private boolean shouldBeEmpty;
-	public Piece[][] pieces;
+	private Piece[][] pieces;
 	private boolean fireTurn;
 	private Piece selected;
     private int xSelected;
