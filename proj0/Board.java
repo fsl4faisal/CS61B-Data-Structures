@@ -1,7 +1,7 @@
 public class Board {
 
-	private static boolean shouldBeEmpty;
-	private Piece[][] pieces;
+	private boolean shouldBeEmpty;
+	public Piece[][] pieces;
 	private boolean fireTurn;
 	private Piece selected;
     private int xSelected;
@@ -35,7 +35,6 @@ public class Board {
             if (StdDrawPlus.isSpacePressed()) {
              	if (b.canEndTurn()) {
              		b.endTurn();
-                    b.winner();
              	}   
             }
             StdDrawPlus.show(25);
@@ -126,30 +125,9 @@ public class Board {
     	}
     	else {
     		if (selected != null) {
-    			if (selected.isKing()) {
-    				if (validKingMove(x, y) && pieceAt(x, y).isFire() == selected.isFire()) {
-    					return true;
-    				}
-    				if (validCapture(x, y)) {
-    					return true;
-    				}
-    			}
-    			if (selected.isFire()) {
-    				if (validFireMove(x, y)) {
-    					return true;
-    				}
-    				if (validCapture(x, y) && pieceAt(((xSelected + x) / 2), ((ySelected + y) / 2)).isFire() == false) {
-    					return true;
-    				}
-    			}
-    			if (selected.isFire() == false) { 
-    				if (validWaterMove(x, y)) {
- 		   				return true;
- 		   			}
-    				if (validCapture(x, y) && pieceAt(((xSelected + x) / 2), ((ySelected + y) / 2)).isFire() == true) {
-    					return true;
-    				}
-    			}
+    			if (validMove(x, y)) {
+                    return true;
+                } 
     		}
     	}
     	return false;
@@ -169,6 +147,39 @@ public class Board {
     	}	
     }
 
+    private boolean validMove(int x, int y) {
+        if (selected.hasCaptured()) {
+            validCapture(x, y);
+        }
+        if (hasMoved == false) {
+            if (selected.isKing()) {
+                    if (validKingMove(x, y)) {
+                        return true;
+                    }
+                    if (validCapture(x, y)) {
+                        return true;
+                    }
+                }
+            if (selected.isFire()) {
+                    if (validFireMove(x, y)) {
+                        return true;
+                    }
+                    if (validCapture(x, y) && pieceAt(((xSelected + x) / 2), ((ySelected + y) / 2)).isFire() == false) {
+                        return true;
+                    }
+                }
+            if (selected.isFire() == false) { 
+                    if (validWaterMove(x, y)) {
+                        return true;
+                    }
+                    if (validCapture(x, y) && pieceAt(((xSelected + x) / 2), ((ySelected + y) / 2)).isFire() == true) {
+                        return true;
+                    }
+                }
+        }
+        return false;
+    }
+
     private boolean validCapture(int x, int y) {
     	if ((x == xSelected + 2 && y == ySelected + 2) || (x == xSelected - 2 && y == ySelected + 2) || (x == xSelected - 2 && y == ySelected - 2) || (x == xSelected + 2 && y == ySelected - 2)) {
     		int midX = (xSelected + x) / 2;
@@ -177,7 +188,7 @@ public class Board {
     			return true;
     		}
     	}
-    	return false;
+    return false;
     }
 
      private boolean validKingMove(int x, int y) {
@@ -207,7 +218,6 @@ public class Board {
     	}
     	StdDrawPlus.picture(x + .5, y + .5, imgFile(p), 1, 1);
         pieces[x][y] = p;
-       
     }
 
     private String imgFile(Piece p) {
@@ -268,10 +278,10 @@ public class Board {
             		if (pieceAt(i, j).isFire()) {
             			firecount += 1;
             		}
+                }
             		else {
             			watercount += 1;
             		}
-            	}
             }
         }
         if ((firecount > 0) && (watercount == 0)) {
