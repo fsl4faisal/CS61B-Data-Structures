@@ -7,13 +7,12 @@ public class Board {
     private int xSelected;
     private int ySelected;
 	private boolean hasMoved;
-    private boolean hasCaptured;
+
 
     public static void main(String[] args) {
     	Board b = new Board(false);
     	b.fireTurn = true;
     	b.hasMoved = false;
-    	b.hasCaptured = false;
     	int N = 8;
     	StdDrawPlus.setXscale(0, N);
         StdDrawPlus.setYscale(0, N);
@@ -36,6 +35,7 @@ public class Board {
             if (StdDrawPlus.isSpacePressed()) {
              	if (b.canEndTurn()) {
              		b.endTurn();
+                    b.winner();
              	}   
             }
             StdDrawPlus.show(25);
@@ -98,8 +98,22 @@ public class Board {
 		}
     }
 
+    private boolean hasCaptured(Piece p) {
+        if (p.hasCaptured()) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
 
     public boolean canSelect(int x, int y) {
+        if (selected != null && hasCaptured(selected)) {
+            if (validCapture(x, y)) {
+                return true;
+            }
+        }
     	if (pieceAt(x, y) != null) {
     		if (selected == null || hasMoved == false) {
     			if (fireTurn && pieceAt(x, y).isFire()) {
@@ -237,7 +251,6 @@ public class Board {
         winner();
 		hasMoved = false;
 		selected = null;
-        hasCaptured = false;
 		if (fireTurn == true) {
 			fireTurn = false;
 		}
@@ -251,8 +264,8 @@ public class Board {
 		int watercount =0;
 		for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
-            	if (pieces[i][j] != null) {
-            		if (pieces[i][j].isFire()) {
+            	if (pieceAt(i, j) != null) {
+            		if (pieceAt(i, j).isFire()) {
             			firecount += 1;
             		}
             		else {

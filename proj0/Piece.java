@@ -23,7 +23,7 @@ public class Piece {
 			this.x = x;
 			this.y = y;
 			b.place(this, x, y);
-			System.out.println("move");
+			kingChecker();
 			return;
 		}
 		if ((x == this.x + 2 && y == this.y + 2) || (x == this.x - 2 && y == this.y + 2) || (x == this.x - 2 && y == this.y - 2) || (x == this.x + 2 && y == this.y - 2)) {
@@ -61,18 +61,12 @@ public class Piece {
             	b.remove(this.x, this.y);
 				this.x = x;
 				this.y = y;
+				kingChecker();
 				b.place(this, x, y);
+				hasCaptured = true;
             }
         }
-          else {
-          	System.out.println("jk here");
-            		b.remove(this.x, this.y);
-            		this.x = x;
-            		this.y = y;
-            		b.place(this, this.x, this.y);
-            		b.remove((xSum / 2), (ySum / 2));
-            		hasCaptured = true;
-            	}
+         
 		
 		} 	
 
@@ -98,7 +92,29 @@ public class Piece {
 
 
   */
+	private void kingChecker() {
+		if (isFire) {
+			if (y == 7) {
+				crowned = true;
+			}
+		}
+		if (isFire == false) {
+			if (y == 0) {
+				crowned = true;
+			}
+		}
+	}
 
+	public boolean hasCaptured() {
+		if (hasCaptured) {
+			return true;
+		}
+		return false;
+	}
+
+	public void doneCapturing() {
+		hasCaptured = false;
+	}
 
 
 	public boolean isFire() {
