@@ -1,12 +1,12 @@
 public class Board {
 
-	public static boolean shouldBeEmpty;
-	public Piece[][] pieces;
+	private static boolean shouldBeEmpty;
+	private Piece[][] pieces;
 	private boolean fireTurn;
-	public Piece selected;
-    public int xSelected;
+	private Piece selected;
+    private int xSelected;
     private int ySelected;
-	public boolean hasMoved;
+	private boolean hasMoved;
     private boolean hasCaptured;
 
     public static void main(String[] args) {
@@ -43,7 +43,7 @@ public class Board {
 
     }
 
-    public void addPieces(int N) {	
+    private void addPieces(int N) {	
 		for (int i = 0; i < N; i++) {
             for (int j = 0; j < N; j++) {
                 if ((j == 0) && ((i % 2) == 0)) {
@@ -155,7 +155,7 @@ public class Board {
     	}	
     }
 
-    public boolean validCapture(int x, int y) {
+    private boolean validCapture(int x, int y) {
     	if ((x == xSelected + 2 && y == ySelected + 2) || (x == xSelected - 2 && y == ySelected + 2) || (x == xSelected - 2 && y == ySelected - 2) || (x == xSelected + 2 && y == ySelected - 2)) {
     		int midX = (xSelected + x) / 2;
     		int midY = (ySelected + y) / 2;
