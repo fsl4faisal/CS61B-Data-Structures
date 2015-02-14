@@ -16,7 +16,6 @@ public class Board {
     	int N = 8;
     	StdDrawPlus.setXscale(0, N);
         StdDrawPlus.setYscale(0, N);
-        b.pieces = new Piece[N][N];
         if (b.shouldBeEmpty == false) {
         	b.addPieces(N);
         }
@@ -69,10 +68,14 @@ public class Board {
 
     public Board(boolean shouldBeEmpty) {
     	this.shouldBeEmpty = shouldBeEmpty;
+        this.pieces = new Piece[8][8];
   		
     }
 
     public Piece pieceAt(int x, int y) {
+        if ((x > 7) || (x < 0) || (y > 7) || (y < 0)) {
+            return null;
+        }
     	if (pieces[x][y] == null) {
     		return null;
     	}
@@ -213,12 +216,12 @@ public class Board {
     }
 
     public void place(Piece p, int x, int y) {
-    	if ((x > 7) || (x < 0) || (y > 7) || (y < 0) || (p == null)) {
-    		return;
-    	}
-    	StdDrawPlus.picture(x + .5, y + .5, imgFile(p), 1, 1);
-        pieces[x][y] = p;
-    }
+        	if ((x > 7) || (x < 0) || (y > 7) || (y < 0) || (p == null)) {
+        		return;
+        	}
+        	StdDrawPlus.picture(x + .5, y + .5, imgFile(p), 1, 1);
+            pieces[x][y] = p;
+        }
 
     private String imgFile(Piece p) {
     	if (p.isKing() == true) {

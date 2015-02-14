@@ -72,26 +72,6 @@ public class Piece {
 
 
 
-	/* private validMove(this.x, this.y, x, y) {
-		if (b.pieceAt(this.x, this.y).isKing()) {
-			if ((x == this.x + 1 && y == this.y + 1) || (x == this.x - 1 && y == this.y + 1) || (x == this.x - 1 && y == this.y - 1) || (x == this.x + 1 && y == this.y - 1)) {
-        		return true;
-		}
-	}
-		if (b.pieceAt(this.x, this.y).isFire()) {
-			if ((x == this.x + 1 && y == this.y + 1) || (x == this.x - 1 && y == this.y + 1)) {
-            	return true;
-		}
-	}
-		if (b.pieceAt(this.x, this.y).isFire == false) {
-			if ((x == this.x - 1 && y == this.y - 1) || (x == this.x + 1 && y == this.y - 1)) {
-            	return true;
-		}
-	}
-}
-
-
-  */
 	private void kingChecker() {
 		if (isFire) {
 			if (y == 7) {
