@@ -1,25 +1,28 @@
 public class Board {
 
 	private boolean shouldBeEmpty;
-	public Piece[][] pieces;
+	private Piece[][] pieces;
 	private boolean fireTurn;
 	private Piece selected;
     private int xSelected;
     private int ySelected;
 	private boolean hasMoved;
+    private String winner;
+    private boolean hasCaptured;
 
 
     public static void main(String[] args) {
     	Board b = new Board(false);
     	b.fireTurn = true;
     	b.hasMoved = false;
+        b.winner = null;
     	int N = 8;
     	StdDrawPlus.setXscale(0, N);
         StdDrawPlus.setYscale(0, N);
         if (b.shouldBeEmpty == false) {
         	b.addPieces(N);
         }
-    	while(true) {
+    	while(b.winner == null) {
             b.drawBoard(N);
             if (StdDrawPlus.mousePressed()) {
                 double xd = StdDrawPlus.mouseX();
@@ -102,6 +105,7 @@ public class Board {
 
     private boolean hasCaptured(Piece p) {
         if (p.hasCaptured()) {
+            hasCaptured = true;
             return true;
         }
         else {
@@ -109,9 +113,36 @@ public class Board {
         }
     }
 
+    private int xGet(Piece p) {
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                if (pieces[i][j] != null) {
+                    if (pieces[i][j].equals(p)) {
+                        return i;
+                    }
+                }
+            }
+        }
+    return 0;
+    }
+
+     private int yGet(Piece p) {
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                if (pieces[i][j] != null) {
+                    if (pieces[i][j].equals(p)) {
+                        return j;
+                    }
+                }
+            }
+        }
+        return 0;
+    }
 
     public boolean canSelect(int x, int y) {
-        if (selected != null && hasCaptured(selected)) {
+        if (selected != null && selected.hasCaptured()) {
+            xSelected = xGet(selected);
+            ySelected = yGet(selected);
             if (validCapture(x, y)) {
                 return true;
             }
@@ -267,6 +298,7 @@ public class Board {
         winner();
 		hasMoved = false;
 		selected = null;
+        hasCaptured = false;
 		if (fireTurn == true) {
 			fireTurn = false;
 		}
@@ -291,12 +323,15 @@ public class Board {
             }
         }
         if ((firecount > 0) && (watercount == 0)) {
+            winner = "fire";
         	return "Fire";
         }
         else if ((watercount > 0) && (firecount == 0)) {
+            winner = "water";
         	return "Water";
         }
         else if ((watercount == 0) && (firecount == 0)) {
+            winner = "No one";
         	return "No one";
         }
         else {
