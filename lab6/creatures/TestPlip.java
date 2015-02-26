@@ -8,9 +8,10 @@ import huglife.Action;
 import huglife.Occupant;
 import huglife.Impassible;
 import huglife.Empty;
+import huglife.HugLifeUtils;
 
 /** Tests the plip class   
- *  @authr FIXME
+ *  @authr Hubert Pham
  */
 
 public class TestPlip {
@@ -32,10 +33,13 @@ public class TestPlip {
 
     @Test
     public void testReplicate() {
-
+        Plip p = new Plip(1.4);
+        Plip baby = p.replicate();
+        assertEquals(0.7, p.energy(), 0.01);
+        assertEquals(0.7, baby.energy(), 0.01);
     }
 
-    //@Test
+    @Test
     public void testChoose() {
         Plip p = new Plip(1.2);
         HashMap<Direction, Occupant> surrounded = new HashMap<Direction, Occupant>();
@@ -53,6 +57,38 @@ public class TestPlip {
 
         assertEquals(expected, actual);
     }
+
+    @Test
+    public void testChoose1() {
+        Plip p = new Plip(1.2);
+        HashMap<Direction, Occupant> surrounded = new HashMap<Direction, Occupant>();
+        surrounded.put(Direction.TOP, new Empty());
+        surrounded.put(Direction.BOTTOM, new Impassible());
+        surrounded.put(Direction.LEFT, new Impassible());
+        surrounded.put(Direction.RIGHT, new Impassible()); 
+
+        Action actual = p.chooseAction(surrounded);
+        Action expected = new Action(Action.ActionType.REPLICATE, Direction.TOP);
+
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void testChoose2() {
+        Plip p = new Plip(0.2);
+        HashMap<Direction, Occupant> surrounded = new HashMap<Direction, Occupant>();
+        surrounded.put(Direction.TOP, new Empty());
+        surrounded.put(Direction.BOTTOM, new Clorus());
+        surrounded.put(Direction.LEFT, new Clorus());
+        surrounded.put(Direction.RIGHT, new Clorus()); 
+
+        Action actual = p.chooseAction(surrounded);
+        Action expected = new Action(Action.ActionType.MOVE, Direction.TOP);
+
+        assertEquals(expected, actual);
+    }
+
+
 
     public static void main(String[] args) {
         System.exit(jh61b.junit.textui.runClasses(TestPlip.class));
