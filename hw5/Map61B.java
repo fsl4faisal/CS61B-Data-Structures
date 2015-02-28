@@ -11,10 +11,7 @@ public interface Map61B<K, V> {
     public boolean containsKey(K key);
 
     /* Returns the value to which the specified key is mapped, or null if this
-     * map contains no mapping for the key. You'll notice that the parameter
-     * type is K, not K. This odd choice follows Java conventions.
-     * Since all Ks have a .equals method, this won't really matter.
-     * Don't worry about this too much.
+     * map contains no mapping for the key. 
      */
     public V get(K key);
 
