@@ -25,7 +25,6 @@ public class ULLMap<K, V> implements Map61B<K,V>, Iterable<K> {
 
     public static <K, V> ULLMap<V, K> invert(ULLMap<K, V> u) {
         ULLMap<V, K> result = new ULLMap<V, K>();  
-        Iterator<K> ui = u.iterator();
         for (K key:u) {
             if (result.containsKey(u.get(key)) != true) {
                 result.put(u.get(key), key);        
