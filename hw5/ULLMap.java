@@ -52,7 +52,7 @@ public class ULLMap<K, V> implements Map61B<K,V>, Iterable<K> {
 
     @Override
     public boolean containsKey(K key) { 
-        return get(key) != null;
+        return get(key).equals(!null);
     }
 
     @Override
