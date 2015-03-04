@@ -35,10 +35,12 @@ public class ULLMap<K, V> implements Map61B<K,V>, Iterable<K> {
        }
 
     @Override
-    public V get(K k) { 
+    public V get(K k) {
+        if (k != null) { 
         for (Entry x = front; x != null; x = x.next) {
             if (k.equals(x.key)) return x.val;
         }
+    }
         return null;
     }
 
@@ -51,8 +53,8 @@ public class ULLMap<K, V> implements Map61B<K,V>, Iterable<K> {
     }
 
     @Override
-    public boolean containsKey(K key) { 
-        return get(key).equals(!null);
+    public boolean containsKey(K key) {
+        return get(key) != null;
     }
 
     @Override
