@@ -9,11 +9,33 @@ import java.util.List;
 public class ArrayList61BTest {
     @Test
     public void basicTest() {
-        List<Integer> L = new ArrayList61B<Integer>();
+        ArrayList61B<Integer> L = new ArrayList61B<Integer>();
         L.add(5);
         L.add(10);
         assertTrue(L.contains(5));        
         assertFalse(L.contains(0));
+        }
+
+    @Test
+    public void multiplyTest1() {
+        ArrayList61B<Integer> L = new ArrayList61B<Integer>(2);
+        L.add(5);
+        L.add(10);
+        L.add(1);
+        assertTrue(L.contains(5));        
+        assertTrue(L.contains(10));
+        assertEquals(L.size(), 3);
+        assertEquals((Integer) L.get(3),(Integer) 0);
+    }
+
+    @Test
+    public void multiplyTest() {
+        ArrayList61B<Integer> L = new ArrayList61B<Integer>(2);
+        L.add(5);
+        L.add(10);
+        L.add(1);
+        assertTrue(L.contains(5));        
+        assertTrue(L.contains(10));
 
     }
 

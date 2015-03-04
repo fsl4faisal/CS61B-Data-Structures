@@ -14,8 +14,18 @@ public class ULLMapTest {
         assertEquals(um.get("Gracias"), "Dios Basado");
     }
 
+    @Test
+    public void testContains() {
+        ULLMap<String, String> um = new ULLMap<String, String>();
+        um.put("Gracias", "Dios Basado");
+        assertEquals(um.containsKey("Gracias"), true);
+        assertEquals(um.size(), 1);
+        um.clear();
+        assertEquals(um.containsKey("Gracias"), false);
+        assertEquals(um.size(), 0);
+    }
     
-    /*@Test
+    @Test
     public void testIterator() {
         ULLMap<Integer, String> um = new ULLMap<Integer, String>();
         um.put(0, "zero");
@@ -23,7 +33,29 @@ public class ULLMapTest {
         um.put(2, "two");
         Iterator<Integer> umi = um.iterator();
         System.out.println(umi.next());
-    }*/
+    } 
+
+    @Test
+    public void testInvert() {
+        ULLMap<Integer, String> um = new ULLMap<Integer, String>();
+        um.put(1, "name");
+        ULLMap<String, Integer> umInverted = ULLMap.invert(um);
+        assertEquals(umInverted.get("name"),(Integer) 1);
+    }
+
+    @Test
+    public void testInvert2() {
+        ULLMap<Integer, String> um = new ULLMap<Integer, String>();
+        um.put(1, "name");
+        um.put(4, "name");
+        um.put(6, "joe");
+        um.put(13, "hubert");
+        ULLMap<String, Integer> umInverted = ULLMap.invert(um);
+        assertEquals(umInverted.get("name"),(Integer) 4);
+        assertEquals(umInverted.get("joe"),(Integer) 6);
+        assertEquals(umInverted.get("hubert"),(Integer) 13);
+        assertEquals(umInverted.size(), 3);
+    }
     
 
     /** Runs tests. */
