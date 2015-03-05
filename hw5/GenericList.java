@@ -70,7 +70,7 @@ public class GenericList<T> {
     }
 
     /** The head of this linked list. */
-    private Node head;
+    private Node<T> head;
     /** The number of elements in this linked list */
     private int length;
 

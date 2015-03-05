@@ -42,7 +42,7 @@ public class WordNetDemo {
         */
 
         System.out.println("Hypnoyms of increase:");
-        for (String noun : wn.hyponyms("increase")) {
+        for (String noun : wn.hyponymsAndSynonyms("increase")) {
             System.out.println(noun);
         }
 
@@ -54,7 +54,7 @@ public class WordNetDemo {
         */
 
         System.out.println("Hypnoyms of jump:");
-        for (String noun : wn.hyponyms("jump")) {
+        for (String noun : wn.hyponymsAndSynonyms("jump")) {
             System.out.println(noun);
         }  
 
@@ -76,7 +76,7 @@ public class WordNetDemo {
         System.out.println("Hypnoyms of change:");
 
         WordNet wn2 = new WordNet("./wordnet/synsets14.txt", "./wordnet/hyponyms14.txt");
-        for (String noun : wn2.hyponyms("change")) {
+        for (String noun : wn2.hyponymsAndSynonyms("change")) {
             System.out.println(noun);
         }              
     }    
