@@ -128,6 +128,23 @@ public class NGramMap {
         }
         return result;
     }
+    public TimeSeries<Double> processedHistory(int startYear, int endYear,
+                                               YearlyRecordProcessor yrp) {
+        TimeSeries<Double> processed = processedHistory(yrp);
+        TimeSeries<Double> result = new TimeSeries<Double>(processed, startYear, endYear);
+        return result;
+    }
+
+    /** Provides processed history of all words ever as processed by YRP. */
+    public TimeSeries<Double> processedHistory(YearlyRecordProcessor yrp) {
+        TimeSeries<Double> result = new TimeSeries<Double>();
+        Set<Integer> keys = years.keySet();
+        for (Integer i: keys) {
+            double processed = yrp.process(years.get(i));
+            result.put(i, processed);
+        }
+        return result;
+    }
 
  
 }
