@@ -1,0 +1,133 @@
+package ngordnet;
+import edu.princeton.cs.introcs.In;
+import java.util.*;
+public class NGramMap {
+    private String wordsFilename;
+    private String countsFilename;
+    private TimeSeries<Long> counts;
+    private Map<Integer, YearlyRecord> years;
+    /** Constructs an NGramMap from WORDSFILENAME and COUNTSFILENAME. */
+    public NGramMap(String wordsFilename, String countsFilename) {
+        this.wordsFilename = wordsFilename;
+        this.countsFilename = countsFilename;
+        counts = new TimeSeries<Long>();
+        years = new HashMap<Integer, YearlyRecord>();
+        readWords(wordsFilename);
+        readCounts(countsFilename);
+    }
+
+    private void readWords(String filename) {
+        In reader = new In(filename);
+        while (reader.hasNextLine()) {
+            String[] read = reader.readLine().split("\t");
+            String str = read[0];
+            Integer year = Integer.valueOf(read[1]);
+            Integer count = Integer.valueOf(read[2]);
+            if (years.get(year) == null) {
+                YearlyRecord y = new YearlyRecord();
+                y.put(str, count);
+                years.put(year, y);
+            }
+            else {
+                years.get(year).put(str, count);
+            }
+        }
+    }
+
+    private void readCounts(String filename) {
+        In reader = new In(filename);
+        while (reader.hasNextLine()) {
+            String[] read = reader.readLine().split(",");
+            Integer year = Integer.valueOf(read[0]);
+            Long count = Long.valueOf(read[1]);
+            counts.put(year, count);
+        }
+    }
+    
+    /** Returns the absolute count of WORD in the given YEAR. If the word
+      * did not appear in the given year, return 0. */
+    public int countInYear(String word, int year) {
+        YearlyRecord words = years.get(year);
+        Collection<String> keys = words.words();
+        Iterator<String> kIter = keys.iterator(); 
+        while (kIter.hasNext()) {
+            if (kIter.next().equals(word)) {
+                return words.count(word);
+            }
+        }
+        return 0;
+    }
+    
+
+    /** Returns a defensive copy of the YearlyRecord of YEAR. */
+    public YearlyRecord getRecord(int year) {
+        return years.get(year);
+    }
+
+    /** Returns the total number of words recorded in all volumes. */
+    public TimeSeries<Long> totalCountHistory() {
+        TimeSeries<Long> result = new TimeSeries<Long>();
+        Collection<Number> years = counts.years();
+        Iterator<Number> yIter = years.iterator();
+        Collection<Number> data = counts.data();
+        Iterator<Number> dIter = data.iterator();
+        while (yIter.hasNext()) {
+            result.put(yIter.next().intValue(), dIter.next().longValue());
+        }
+    return result;
+    }
+
+    /** Provides the history of WORD between STARTYEAR and ENDYEAR. */
+    public TimeSeries<Integer> countHistory(String word, int startYear, int endYear) {
+        TimeSeries<Integer> allYears = countHistory(word);
+        TimeSeries<Integer> result = new TimeSeries<Integer>(allYears, startYear, endYear);
+        return result;
+    }
+
+    /** Provides a defensive copy of the history of WORD. */
+    public TimeSeries<Integer> countHistory(String word) {
+        TimeSeries<Integer> result = new TimeSeries<Integer>();
+        Set<Integer> keys = years.keySet();
+        for (Integer i: keys) {
+            if (countInYear(word, i) != 0) {
+                result.put(i, countInYear(word, i));
+            }
+        }
+        return result;
+    }
+
+    /** Provides the relative frequency of WORD between STARTYEAR and ENDYEAR. */
+    public TimeSeries<Double> weightHistory(String word, int startYear, int endYear) {
+        TimeSeries<Double> weightHistory = weightHistory(word);
+        TimeSeries<Double> result = new TimeSeries<Double>(weightHistory, startYear, endYear);
+        return result;
+    }
+
+    /** Provides the relative frequency of WORD. */
+    public TimeSeries<Double> weightHistory(String word) {
+        TimeSeries<Integer> countHistory = countHistory(word);
+        TimeSeries<Double> result = countHistory.dividedBy(counts);
+        return result;
+    }
+
+    /** Provides the summed relative frequency of all WORDS between
+      * STARTYEAR and ENDYEAR. If a word does not exist, ignore it rather
+      * than throwing an exception. */
+    public TimeSeries<Double> summedWeightHistory(Collection<String> words, 
+                              int startYear, int endYear) {
+        TimeSeries<Double> sum = summedWeightHistory(words);
+        TimeSeries<Double> result = new TimeSeries<Double>(sum, startYear, endYear);
+        return result;
+    }
+    /** Returns the summed relative frequency of all WORDS. */
+    public TimeSeries<Double> summedWeightHistory(Collection<String> words) {
+        TimeSeries<Double> result = new TimeSeries<Double>();
+        for (String t: words) {
+            TimeSeries<Double> weightHistory = weightHistory(t);
+            result.plus(weightHistory);
+        }
+        return result;
+    }
+
+ 
+}

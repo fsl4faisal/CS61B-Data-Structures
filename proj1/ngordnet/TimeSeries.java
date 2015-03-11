@@ -1,7 +1,6 @@
 package ngordnet;
 import java.util.*;
 public class TimeSeries<T extends Number> extends TreeMap<Integer, T> { 
-	private Map<Integer, T> times;
     /** Constructs a new empty TimeSeries. */
     public TimeSeries() {
     }
@@ -80,12 +79,11 @@ public class TimeSeries<T extends Number> extends TreeMap<Integer, T> {
     /** Returns all data for this time series. 
       * Must be in the same order as years(). */
     public Collection<Number> data() {
-    	Collection<Number> x = this.years();
-    	Collection<Number> result = new TreeSet<Number>();
-    	for (Number num: x) {
-            Integer inum = num.intValue();
-    		result.add(this.get(inum));
-    	}
+    	Iterator<Number> x = this.years().iterator();
+    	Collection<Number> result = new LinkedList<Number>();
+        while (x.hasNext()) {
+            result.add(this.get(x.next()));
+        }
     	return result;
     }
   
@@ -94,9 +92,9 @@ public class TimeSeries<T extends Number> extends TreeMap<Integer, T> {
 
         /* You will not need to implement the put method, since your
            TimeSeries class should extend the TreeMap class. */
-        ts.put(1992, 3.6);
-        ts.put(1993, 9.2);
-        ts.put(1994, 15.2);
+        ts.put(1992, 3.6); 
+        ts.put(1993, 9.2); 
+        ts.put(1994, 15.2); 
         ts.put(1995, 16.1);
         ts.put(1996, -15.7);
         /* Gets the years and data of this TimeSeries. 

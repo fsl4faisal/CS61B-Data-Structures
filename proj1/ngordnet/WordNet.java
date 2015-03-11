@@ -73,7 +73,7 @@ public class WordNet {
       * all of these synsets. See http://goo.gl/EGLoys for an example.
       * Do not include hyponyms of synonyms.
       */
-    public Set<String> hyponymsAndSynonyms(String word) {
+    public Set<String> hyponyms(String word) {
         if (word == null) {
             throw new IllegalArgumentException();
         }
