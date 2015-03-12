@@ -1,5 +1,11 @@
 package ngordnet;
-import java.util.*;
+import java.util.Set;
+import java.util.TreeSet;
+import java.util.TreeMap;
+import java.util.LinkedList;
+import java.util.Collection;
+import java.util.Iterator;
+
 public class TimeSeries<T extends Number> extends TreeMap<Integer, T> { 
     /** Constructs a new empty TimeSeries. */
     public TimeSeries() {
@@ -13,19 +19,21 @@ public class TimeSeries<T extends Number> extends TreeMap<Integer, T> {
     /** Creates a copy of TS, but only between STARTYEAR and ENDYEAR. 
      * inclusive of both end points. */
     public TimeSeries(TimeSeries<T> ts, int startYear, int endYear) {
-        TimeSeries<T> result = new TimeSeries<T>();
     	for (int start= startYear; start < endYear; start++) {
-    		if (ts.containsValue(start)) {
+    		if (ts.containsKey(start)) {
     			T value = ts.get(start);
-    			result.put(start, value);
+    			this.put(start, value);
     		}
     	}
     }
 
     /** Creates a copy of TS. */
     public TimeSeries(TimeSeries<T> ts) {
-    	TimeSeries<T> result = new TimeSeries<T>();
-        result = ts;
+        Collection<Number> years = ts.years();
+        for (Number n: years) {
+            Integer i = n.intValue();
+            this.put(i, ts.get(i));
+        }
     }
 
     /** Returns the quotient of this time series divided by the relevant value in ts.
@@ -86,58 +94,5 @@ public class TimeSeries<T extends Number> extends TreeMap<Integer, T> {
         }
     	return result;
     }
-  
-    public static void main(String[] args) {
-        TimeSeries<Double> ts = new TimeSeries<Double>();
-
-        /* You will not need to implement the put method, since your
-           TimeSeries class should extend the TreeMap class. */
-        ts.put(1992, 3.6); 
-        ts.put(1993, 9.2); 
-        ts.put(1994, 15.2); 
-        ts.put(1995, 16.1);
-        ts.put(1996, -15.7);
-        /* Gets the years and data of this TimeSeries. 
-         * Note, you should never cast these to another type, even
-         * if you happen to know how the Collection<Number> is implemented. */
-        Collection<Number> years = ts.years();
-        Collection<Number> data = ts.data();
-
-        for (Number yearNumber : years) {
-            /* This awkward conversion is necessary since you cannot
-             * do yearNumber.get(yearNumber), since get expects as
-             * Integer since TimeSeries always require an integer
-             * key. 
-             *
-             * Your output may be in any order. */
-            int year = yearNumber.intValue();
-            double value = ts.get(year);
-            System.out.println("In the year " + year + " the value was " + value);
-        }
-
-        for (Number dataNumber : data) {
-             /* Your dataNumber values must print out in the same order as the
-              * they did in the previous for loop. */
-            double datum = dataNumber.doubleValue();
-            System.out.println("In some year, the value was " + datum);
-        } 
-
-        TimeSeries<Integer> ts2 = new TimeSeries<Integer>();
-        ts2.put(1991, 10);
-        ts2.put(1992, -5);
-        ts2.put(1993, 1);
-
-        TimeSeries<Double> tSum = ts.plus(ts2);
-        System.out.println(tSum.get(1991)); // should print 10
-        System.out.println(tSum.get(1992)); // should print -1.4
-
-        TimeSeries<Double> ts3 = new TimeSeries<Double>();
-        ts3.put(1991, 5.0);
-        ts3.put(1992, 1.0);
-        ts3.put(1993, 100.0);
-
-        TimeSeries<Double> tQuotient = ts2.dividedBy(ts3);
-
-        System.out.println(tQuotient.get(1991)); // should print 2.0
-    }
+     
 }

@@ -1,5 +1,8 @@
 package ngordnet;
-import java.util.*;
+import java.util.Set;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.HashMap;
 import edu.princeton.cs.introcs.In;
 import edu.princeton.cs.algs4.Digraph;
 /** 
@@ -7,21 +10,21 @@ import edu.princeton.cs.algs4.Digraph;
  */
 
 public class WordNet {
-	private String synsetFilename;
-	private String hyponymFilename;
+  private String synsetFile;
+  private String hyponymFile;
 	private Map<Integer, String> synsetId;
 	private Map<String, Set<Integer>> nounId;
 	private Digraph g;
 
     /** Creates a WordNet using files form SYNSETFILENAME and HYPONYMFILENAME */
     public WordNet(String synsetFilename, String hyponymFilename) {
-    	this.synsetFilename = synsetFilename;
-    	this.hyponymFilename = hyponymFilename;
+    	this.synsetFile = synsetFilename;
+    	this.hyponymFile = hyponymFilename;
     	synsetId = new HashMap<Integer, String>();
     	nounId = new HashMap<String, Set<Integer>>();
-    	readSynset(synsetFilename);
+    	readSynset(synsetFile);
     	g = new Digraph(synsetId.size());
-    	readHyponym(hyponymFilename);
+    	readHyponym(hyponymFile);
     }
 
     private void readSynset(String filename) {
@@ -52,7 +55,7 @@ public class WordNet {
     	while (reader.hasNextLine()) {
     		String[] read = reader.readLine().split(",");
     		Integer num = Integer.valueOf(read[0]);
-    		for (int i= 1; i < read.length; i++) {
+    		for (int i = 1; i < read.length; i++) {
     			g.addEdge(num, Integer.valueOf(read[i]));
     		}
     	}

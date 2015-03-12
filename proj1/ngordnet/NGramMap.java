@@ -1,6 +1,10 @@
 package ngordnet;
 import edu.princeton.cs.introcs.In;
-import java.util.*;
+import java.util.Set;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.HashMap;
 public class NGramMap {
     private String wordsFilename;
     private String countsFilename;
@@ -92,6 +96,9 @@ public class NGramMap {
             if (countInYear(word, i) != 0) {
                 result.put(i, countInYear(word, i));
             }
+            else {
+            result.put(i, 0);
+        }
         }
         return result;
     }
@@ -124,7 +131,7 @@ public class NGramMap {
         TimeSeries<Double> result = new TimeSeries<Double>();
         for (String t: words) {
             TimeSeries<Double> weightHistory = weightHistory(t);
-            result.plus(weightHistory);
+            result = result.plus(weightHistory);
         }
         return result;
     }
@@ -146,5 +153,4 @@ public class NGramMap {
         return result;
     }
 
- 
 }

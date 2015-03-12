@@ -9,6 +9,7 @@ public class NgordnetUI {
     public static void main(String[] args) {
         WordNet w = new WordNet("./wordnet/synsets11.txt", "./wordnet/hyponyms11.txt");
         NGramMap n = new NGramMap("./ngrams/words_that_start_with_q.csv", "./ngrams/total_counts.csv");
+        WordLengthProcessor processor = new WordLengthProcessor();
         int startDate = 1505;
         int endDate = 2008;
         while (true) {
@@ -21,7 +22,7 @@ public class NgordnetUI {
             switch (command) {
                 case "quit": return;
                 case "help":
-                    In in = new In("help.txt");
+                    In in = new In("./wordnet/help.txt");
                     String helpStr = in.readAll();
                     System.out.println(helpStr);
                     break;  
@@ -43,6 +44,8 @@ public class NgordnetUI {
                 case "hyponyms":
                     System.out.println(w.hyponyms(tokens[0]));
                     break;
+                case "wordlength":
+                    Plotter.plotProcessedHistory(n, startDate, endDate, processor);
                 default:
                     System.out.println("Invalid command.");  
                     break;
