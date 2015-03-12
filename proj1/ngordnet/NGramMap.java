@@ -4,20 +4,20 @@ import java.util.Set;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.HashMap;
+import java.util.HashMaph;
 public class NGramMap {
-    private String wordsFilename;
-    private String countsFilename;
+    private String wordsFile;
+    private String countsFile;
     private TimeSeries<Long> counts;
     private Map<Integer, YearlyRecord> years;
     /** Constructs an NGramMap from WORDSFILENAME and COUNTSFILENAME. */
     public NGramMap(String wordsFilename, String countsFilename) {
-        this.wordsFilename = wordsFilename;
-        this.countsFilename = countsFilename;
+        this.wordsFile = wordsFilename;
+        this.countsFile = countsFilename;
         counts = new TimeSeries<Long>();
         years = new HashMap<Integer, YearlyRecord>();
-        readWords(wordsFilename);
-        readCounts(countsFilename);
+        readWords(wordsFile);
+        readCounts(countsFile);
     }
 
     private void readWords(String filename) {
@@ -65,7 +65,13 @@ public class NGramMap {
 
     /** Returns a defensive copy of the YearlyRecord of YEAR. */
     public YearlyRecord getRecord(int year) {
-        return years.get(year);
+        YearlyRecord result = new YearlyRecord();
+        YearlyRecord years = years.get(year);
+        Collection<String> word = get.words();
+        for (String s: word) {
+            result.put(s, years.get(s));
+        }
+        return result;
     }
 
     /** Returns the total number of words recorded in all volumes. */
@@ -96,9 +102,6 @@ public class NGramMap {
             if (countInYear(word, i) != 0) {
                 result.put(i, countInYear(word, i));
             }
-            else {
-            result.put(i, 0);
-        }
         }
         return result;
     }

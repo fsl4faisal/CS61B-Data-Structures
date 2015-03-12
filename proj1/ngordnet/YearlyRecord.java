@@ -25,7 +25,7 @@ public class YearlyRecord {
         cached = new TreeMap<String, Boolean>();
     }
 
-    /** Creates a YearlyRecord using the given data. */
+    /** Creates a YearlyRecord using the given data. */x`x`
     public YearlyRecord(HashMap<String, Integer> otherCountMap) {
         words = new TreeMap<String, Integer>();
         counts = new TreeMap<Integer, List<String>>();

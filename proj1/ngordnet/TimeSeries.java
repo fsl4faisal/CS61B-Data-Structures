@@ -19,7 +19,7 @@ public class TimeSeries<T extends Number> extends TreeMap<Integer, T> {
     /** Creates a copy of TS, but only between STARTYEAR and ENDYEAR. 
      * inclusive of both end points. */
     public TimeSeries(TimeSeries<T> ts, int startYear, int endYear) {
-    	for (int start= startYear; start < endYear; start++) {
+    	for (int start = startYear; start < endYear + 1; start++) {
     		if (ts.containsKey(start)) {
     			T value = ts.get(start);
     			this.put(start, value);
