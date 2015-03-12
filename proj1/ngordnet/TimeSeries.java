@@ -41,10 +41,10 @@ public class TimeSeries<T extends Number> extends TreeMap<Integer, T> {
     public TimeSeries<Double> dividedBy(TimeSeries<? extends Number> ts) {
         Set<Integer> keys = this.keySet();
         for (Integer i: keys) {
-           if (!ts.containsKey(i)) {
-                  throw new IllegalArgumentException();
-                }
+            if (!ts.containsKey(i)) {
+                throw new IllegalArgumentException();
             }
+        }
         TimeSeries<Double> result = new TimeSeries<Double>();
         for (Integer t: keys) {
             if (ts.containsKey(t)) {

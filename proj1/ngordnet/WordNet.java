@@ -84,9 +84,9 @@ public class WordNet {
         Set<String> result = new HashSet<String>();
         for (Integer i: ids) {
             String[] str = synsetId.get(i).split(" ");
-                for (String s: str) {
-                    result.add(s);
-                }
+            for (String s: str) {
+                result.add(s);
+            }
         }
         return result;
     }

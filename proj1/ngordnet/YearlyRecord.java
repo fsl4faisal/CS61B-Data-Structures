@@ -46,12 +46,17 @@ public class YearlyRecord {
 
     /** Records that WORD occurred COUNT times in this year. */
     public void put(String word, int count) {
-        words.put(word, count);
         addToCounts(word, count);
+        words.put(word, count);
         cached.put(word, false);
     }
 
     private void addToCounts(String word, int count) {
+        if (words.containsKey(word)) {
+            int c = words.get(word);
+            List<String> wordList = counts.get(c);
+            wordList.remove(word);
+        }
         if (!counts.containsKey(count)) {
             counts.put(count, new ArrayList<String>());
         }
@@ -91,10 +96,10 @@ public class YearlyRecord {
       */
     public int rank(String word) {
         if (!cached.get(word)) {
-        Set<Integer> c = counts.keySet();
-        int index = this.size();
-        for (Integer i: c) {
-            List<String> w = counts.get(i);
+            Set<Integer> c = counts.keySet();
+            int index = this.size();
+            for (Integer i: c) {
+                List<String> w = counts.get(i);
                 for (String s: w) {
                     rankMap.put(s, index);
                     cached.put(s, true);
@@ -102,7 +107,7 @@ public class YearlyRecord {
                 }
             }
         } 
-    return rankMap.get(word);
+        return rankMap.get(word);
     }  
 
 } 

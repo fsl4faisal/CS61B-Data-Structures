@@ -65,10 +65,10 @@ public class NGramMap {
     /** Returns a defensive copy of the YearlyRecord of YEAR. */
     public YearlyRecord getRecord(int year) {
         YearlyRecord result = new YearlyRecord();
-        YearlyRecord all_years = years.get(year);
-        Collection<String> word = all_years.words();
+        YearlyRecord allYears = years.get(year);
+        Collection<String> word = allYears.words();
         for (String s: word) {
-            result.put(s, all_years.count(s));
+            result.put(s, allYears.count(s));
         }
         return result;
     }
@@ -83,7 +83,7 @@ public class NGramMap {
         while (yIter.hasNext()) {
             result.put(yIter.next().intValue(), dIter.next().longValue());
         }
-    return result;
+        return result;
     }
 
     /** Provides the history of WORD between STARTYEAR and ENDYEAR. */
