@@ -17,6 +17,11 @@
 public class ExampleUI {
 
     public static void main(String[] args) {
+        In in = new In("./ngordnet/ngordnetui.config");
+        String wordFile = in.readString();
+        String countFile = in.readString();
+        String synsetFile = in.readString();
+        String hyponymFile = in.readString();
         while (true) {
             System.out.print("> ");
             String line = StdIn.readLine();

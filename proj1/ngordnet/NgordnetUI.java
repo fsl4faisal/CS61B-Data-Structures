@@ -7,8 +7,13 @@ import edu.princeton.cs.introcs.In;
  */
 public class NgordnetUI {
     public static void main(String[] args) {
-        WordNet w = new WordNet("./wordnet/synsets11.txt", "./wordnet/hyponyms11.txt");
-        NGramMap n = new NGramMap("./ngrams/words_that_start_with_q.csv", "./ngrams/total_counts.csv");
+        In in = new In("./ngordnet/ngordnetui.config");
+        String wordFile = in.readString();
+        String countFile = in.readString();
+        String synsetFile = in.readString();
+        String hyponymFile = in.readString();
+        WordNet w = new WordNet(synsetFile, hyponymFile);
+        NGramMap n = new NGramMap(wordFile, countFile);
         WordLengthProcessor processor = new WordLengthProcessor();
         int startDate = 1505;
         int endDate = 2008;
@@ -22,8 +27,8 @@ public class NgordnetUI {
             switch (command) {
                 case "quit": return;
                 case "help":
-                    In in = new In("./wordnet/help.txt");
-                    String helpStr = in.readAll();
+                    In i = new In("./wordnet/help.txt");
+                    String helpStr = i.readAll();
                     System.out.println(helpStr);
                     break;  
                 case "range": 
@@ -46,6 +51,7 @@ public class NgordnetUI {
                     break;
                 case "wordlength":
                     Plotter.plotProcessedHistory(n, startDate, endDate, processor);
+                    break;
                 default:
                     System.out.println("Invalid command.");  
                     break;
