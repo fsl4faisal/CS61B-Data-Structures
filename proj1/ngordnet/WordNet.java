@@ -40,11 +40,10 @@ public class WordNet {
                 if (id != null) {
                     id.add(num);
                     nounId.put(i, id);
-                }
-                else {
-                id = new HashSet<Integer>();
-                id.add(num);
-                nounId.put(i, id);
+                } else {
+                    id = new HashSet<Integer>();
+                    id.add(num);
+                    nounId.put(i, id);
                 }
             }
         }
@@ -94,4 +93,3 @@ public class WordNet {
 
       
 }
-

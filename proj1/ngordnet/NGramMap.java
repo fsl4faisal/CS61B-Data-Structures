@@ -31,8 +31,7 @@ public class NGramMap {
                 YearlyRecord y = new YearlyRecord();
                 y.put(str, count);
                 years.put(year, y);
-            }
-            else {
+            } else {
                 years.get(year).put(str, count);
             }
         }
@@ -77,8 +76,8 @@ public class NGramMap {
     /** Returns the total number of words recorded in all volumes. */
     public TimeSeries<Long> totalCountHistory() {
         TimeSeries<Long> result = new TimeSeries<Long>();
-        Collection<Number> years = counts.years();
-        Iterator<Number> yIter = years.iterator();
+        Collection<Number> years1 = counts.years();
+        Iterator<Number> yIter = years1.iterator();
         Collection<Number> data = counts.data();
         Iterator<Number> dIter = data.iterator();
         while (yIter.hasNext()) {
