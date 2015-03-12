@@ -10,8 +10,8 @@ import edu.princeton.cs.algs4.Digraph;
  */
 
 public class WordNet {
-  private String synsetFile;
-  private String hyponymFile;
+    private String synsetFile;
+    private String hyponymFile;
 	private Map<Integer, String> synsetId;
 	private Map<String, Set<Integer>> nounId;
 	private Digraph g;
