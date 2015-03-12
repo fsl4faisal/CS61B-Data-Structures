@@ -13,14 +13,12 @@ import java.util.ArrayList;
 public class YearlyRecord {
     private Map<String, Integer> words;
     private Map<Integer, List<String>> counts;
-    private Map<String, Integer> countToWord;
     private Map<String, Integer> rankMap;
     private Map<String, Boolean> cached;
     /** Creates a new empty YearlyRecord. */
     public YearlyRecord() {
         words = new TreeMap<String, Integer>();
         counts = new TreeMap<Integer, List<String>>();
-        countToWord = new TreeMap<String, Integer>();
         rankMap = new TreeMap<String, Integer>();
         cached = new TreeMap<String, Boolean>();
     }
@@ -29,7 +27,6 @@ public class YearlyRecord {
     public YearlyRecord(HashMap<String, Integer> otherCountMap) {
         words = new TreeMap<String, Integer>();
         counts = new TreeMap<Integer, List<String>>();
-        countToWord = new TreeMap<String, Integer>();
         rankMap = new TreeMap<String, Integer>();
         cached = new TreeMap<String, Boolean>();
         for (String s: otherCountMap.keySet()) {
