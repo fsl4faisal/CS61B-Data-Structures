@@ -75,14 +75,36 @@ public class Asymptotics {
 
     /** Fill in the body of this function so that its running time is
      *  n^(1/2) and so that it returns true if and only if n is prime. */
+    /** I used the Wikipedia article "Primality test" as a reference for
+     *  this function. */
     public static boolean function4(long n) {
-	return false; //FIX ME
+	   if (n <= 3) {
+            return n > 1;
+       } else if (n % 2 == 0 || n % 3 == 0) {
+            return false;
+       } else {
+            for (int i = 5; i * i <= n; i += 6) {
+                if (n % i == 0 || n % (i + 2) == 0) {
+                    return false;
+                }
+            }
+            return true;
+       }
     }
 
     /** Fill in the body of this function so that its best case running
      *  time is log(n) and its worst case running time is n. */
     public static void function5(long n) {
-        //FILL ME IN
+        ArrayList<Integer> a = new ArrayList<Integer>();
+        if (n % 2 == 0) {
+            for (int i = 0; i < n; i++) {
+                a.add(0);
+            }
+        } else {
+            for (int i = 0; i * 2 < n; i++) {
+                a.add(0);
+            }
+        }
     }
 
     public static void usage() {

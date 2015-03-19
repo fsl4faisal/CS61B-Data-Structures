@@ -1,35 +1,40 @@
 1. Estimated running times (in big-theta notation):
-function1: Theta(____)
-function2: Theta(____)
-function3: Theta(____)
+function1: Theta(N^2)
+function2: Theta(N)
+function3: Theta(N^3)
 
 Data:
                n         time
-function1:
+function1:	3	  0.0sec
+		10	  0.001sec	
+		1000  	  0.013sec
+		16000	  0.524sec
+		25000	  1.29sec
+		50000	  5.082sec
+		100000	  20.147sec
 
-
-
-
-function2:
-
-
-
+function2:	16000	  0.007sec	
+		160000	  0.013sec
+		1600000	  0.018sec
+		16000000  0.081sec
+		560000000 2.468sec
 
 function3:
-
-
-
+		160 	  0.035sec
+		250	  0.109sec 	  
+		500 	  0.796sec
+		750 	  2.633sec
 
 Experimentally determined running time, assuming runtime is of the form ~aN^b:
 
-function1: ~__N^__
-function2: ~__N^__
-function3: ~__N^__
+function1: ~2e-4*N^1.991
+function2: ~4.4e-9*N^0.87
+function3: ~3e-2*N^2.89
 
 2. Data:
                               n             time
-function4:
-
+function4:		      2		    0.0sec	
+			     
 
 
 function5 (best case):

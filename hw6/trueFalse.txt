@@ -1,0 +1,8 @@
+1 T upper bound is log(N) since worst case its not in the tree
+2 T average runtime of BSTMap is log(N)
+3 F because upper bound and average runtime is log(N)
+4 T because if upperbound is O(log(N)) then O(N) is also an upper bound
+5 T because if upperbound is O(log(N)) then O(N^2) is also an upper bound
+6 T because the two calls would require ln(N) each so the runtime would be 2ln(N) due to the tilde	
+7 T because for large enough inputs, log(N) is a lower bound since both calls take log(N) each
+8 O(Nlog(N))
