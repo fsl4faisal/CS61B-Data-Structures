@@ -1,0 +1,88 @@
+Basic Storage Design Plan for Gitlet
+
+
+Overview
+-------
+A basic storage design plan for Gitlet that allows us to basically recreate GitHub.
+
+
+
+Sequential Example
+-------
+
+For each of the commands below, describe in detail what files on your computer change after the command is executed. Only list changes made to files. Do not list details regarding the reading of files.
+
+$ java Gitlet init
+
+ . If it does not already exist, a new folder called .gitlet is created in the current directory.
+
+
+
+$ java Gitlet add dog.txt
+
+Stages dog.txt to add to Gitlet
+
+$ java Gitlet commit “initial commit of dog.txt”
+
+Commits all current stages
+
+
+$ java Gitlet add dog.txt
+
+Does nothing since dog.txt already committed and no changes were made 
+
+
+$ cp manyDogs.txt dog.txt
+
+Copies dog.txt into file called manyDogs.txt
+
+
+$ java Gitlet add dog.txt
+
+Stages dog.txt 
+
+
+$ java Gitlet commit “replaced dog.txt with manyDogs”
+
+Commits stages 
+
+
+$ java Gitlet add manyDogs.txt
+
+Stages manyDogs.txt to Gitlet
+
+
+$ java Gitlet add ketchupFriend.txt
+
+Stages ketchupFriend.txt 
+
+$ java Gitlet commit “added manyDogs and ketchupFriend”
+
+Commits manyDogs and KetchupFriends
+
+
+$ java Gitlet commit YOLO
+
+Nothing, wrong command?
+
+
+$ cp doge.txt manyDogs.txt
+
+Copies manyDogs.txt into doge.txt 
+
+$ java Gitlet add manyDogs.txt
+
+Stages manyDogs.txt
+
+
+$ java Gitlet commit “replaced manyDogs with doge”
+
+Commits all stages again 
+
+$ java Gitlet add dog.txt
+
+Stages dog.txt 
+
+$ java Gitlet commit “added dog yet again”
+
+Commits dog
