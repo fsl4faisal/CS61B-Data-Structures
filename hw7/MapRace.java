@@ -1,36 +1,52 @@
-// import java.util.HashMap;
-// import java.util.TreeMap;
-// import java.util.Map;
-// We don't need these! We made our own!
+import java.util.HashMap;
+import java.util.TreeMap;
+import java.util.Map;
+
 
 public class MapRace {
 
     /* Tests the put action the specified number of times. */
-    private static long timePuts61B(Map61B<Integer, Integer> map, 
+    private static long timePuts61B(Map<Integer, Integer> map, 
                 int num_puts, int key_range, int val_range) {
-        // YOUR CODE HERE
-        return 0;
+        long t0 = System.currentTimeMillis();
+        for (int i = 0; i < num_puts; i++) {
+            int rand = (int) Math.random() * key_range;
+            int rand2 = (int) Math.random() * val_range;
+            map.put(rand, rand2);
+        }
+        long tf = System.currentTimeMillis();
+        return tf - t0;
     }
 
     /* Tests the get action the specified number of times. */
-    private static long timeGets61B(Map61B<Integer, Integer> map, 
+    private static long timeGets61B(Map<Integer, Integer> map, 
                 int num_gets, int key_range) {
-        // YOUR CODE HERE
-        return 0;
+        long t0 = System.currentTimeMillis();
+        for (int i = 0; i < num_gets; i++) {
+            int rand = (int) Math.random() * key_range;
+            map.get(rand);
+        }
+        long tf = System.currentTimeMillis();
+        return tf - t0;
     }
 
     /* Tests the get action the specified number of times. */
-    private static long timeRemove61B(Map61B<Integer, Integer> map, 
+    private static long timeRemove61B(Map<Integer, Integer> map, 
                 int num_removes, int key_range) {
-        // YOUR CODE HERE
-        return 0;
+        long t0 = System.currentTimeMillis();
+        for (int i = 0; i < num_removes; i++) {
+            int rand = (int) Math.random() * key_range;
+            map.remove(rand);
+        }
+        long tf = System.currentTimeMillis();
+        return tf - t0;
     }
 
     /* Warms up Java to get the cache hot and ready. If you don't warm up, 
      * you'll see that the first test has an unfair handicap. */
     private static void warmup() {
-        Map61B<Integer, Integer> trashMap1 = new MyHashMap<Integer, Integer>();
-        Map61B<Integer, Integer> trashMap2 = new BSTMap<Integer, Integer>();
+        Map<Integer, Integer> trashMap1 = new HashMap<Integer, Integer>();
+        Map<Integer, Integer> trashMap2 = new TreeMap<Integer, Integer>();
         timePuts61B(trashMap1, MIL, MIL, MIL);
         timePuts61B(trashMap2, MIL, MIL, MIL);
         timeGets61B(trashMap1, MIL, MIL);
@@ -41,8 +57,8 @@ public class MapRace {
 
     private static void run61BTimedTests(int num, int key_range, 
                 int val_range) {
-        Map61B<Integer, Integer> hMap = new MyHashMap<Integer, Integer>();
-        Map61B<Integer, Integer> tMap = new BSTMap<Integer, Integer>();
+        Map<Integer, Integer> hMap = new HashMap<Integer, Integer>();
+        Map<Integer, Integer> tMap = new TreeMap<Integer, Integer>();
 
         // TreeMap puts
         long tPuts = timePuts61B(tMap, num, key_range, val_range);
@@ -77,8 +93,8 @@ public class MapRace {
 
     public static final String followUp() {
         // YOUR ANSWER HERE
-        String answer = "yes, because I done it ";
-        answer += "yuh huh I did";
+        String answer = "No, because TreeMaps are not always better than HashMaps; ";
+        answer += "I also used java's built-in TreeMap and HashMap instead.";
         return answer;
     }
 

@@ -22,11 +22,16 @@ public class Board {
 
 	@Override
 	public boolean equals(Object o) {
+        
         return true; // YOUR CODE HERE
 	}
 
     @Override
     public int hashCode() {
-        return 6; // YOUR CODE HERE
+    /*    int result = 0;
+        for (Piece p: pieces) {
+            result += p.hashCode();
+    }   */
+    return 0;
     }
 }

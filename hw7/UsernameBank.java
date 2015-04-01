@@ -1,36 +1,70 @@
 import java.util.Map;
+import java.util.HashMap;
+import java.lang.Exception;
 
 public class UsernameBank {
 
     // Instance variables (remember, they should be private!)
-    // YOUR CODE HERE
+    Map<String, String> UsertoEmail;
+    Map<String, String> EmailtoUser;
+    Map<String, Integer> badEmails;
+    Map<String, Integer> badUsernames;
+    
 
     public UsernameBank() {
-        // YOUR CODE HERE
+        Map<String,String> UsertoEmail = new HashMap<String,String>();
+        Map<String,String> EmailtoUser = new HashMap<String,String>();
+        Map<String,Integer> badEmails = new HashMap<String,Integer>();
+        Map<String,Integer> badUsernames = new HashMap<String,Integer>();
     }
 
     public void generateUsername(String username, String email) {
-        // YOUR CODE HERE
+        
     }
 
     public String getEmail(String username) {
-        // YOUR CODE HERE
-        return null;
+        if (username == null) {
+            throw new NullPointerException();
+        }
+        if (username.length() != 2 || username.length() != 3) {
+            if (badUsernames.get(username) != null) {
+                badUsernames.put(username, badUsernames.get(username) + 1);
+            } else {
+                badUsernames.put(username, 1);
+            }
+            return null;
+        }
+        char data[] = username.toCharArray();
+        for (char i: data) {
+            int check = (int) i;
+            if (check <= 122 && check >= 97 || check <= 90 && check >=65 || check >= 48 && check <= 57) {
+                return null;
+            }
+            if (badUsernames.get(username) != null) {
+                badUsernames.put(username, badUsernames.get(username) + 1);
+            } else {
+                badUsernames.put(username, 1);
+            }
+            return null;
+        }
+        return UsertoEmail.get(username);
     }
 
     public String getUsername(String userEmail)  {
-        // YOUR CODE HERE
-        return null;
+        if (userEmail == null) {
+            throw new NullPointerException();
+        }
+        return EmailtoUser.get(userEmail);
     }
 
     public Map<String, Integer> getBadEmails() {
         // YOUR CODE HERE
-        return null;
+        return badEmails;
     }
 
     public Map<String, Integer> getBadUsernames() {
         // YOUR CODE HERE
-        return null;
+        return badUsernames;
     }
 
     public String suggestUsername() {

@@ -61,12 +61,31 @@ public class Piece {
 
     @Override
     public boolean equals(Object o) {
+        if (((Piece) o).x == this.x && ((Piece) o).y == this.y) {
+            return true;
+        }
         return false; // YOUR CODE HERE
     }
 
     @Override
     public int hashCode() {
-        return 5; // YOUR CODE HERE
+        int f=0, k=0, s=0, b=0, p=0;
+        if (isKing()) {
+            k = 1000000;
+        }
+        if (isFire()) {
+            f = 100000;
+        }
+        if (isShield()) {
+            s = 10000;
+        }
+        if (isBomb()) {
+            b = 1000;
+        }
+        else {
+            p = 100;
+        }
+        return f + k + s + b + p + x * 10 + y; 
     }
 
     public static void main(String[] args) {
