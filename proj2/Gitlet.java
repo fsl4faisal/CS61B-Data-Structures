@@ -62,8 +62,8 @@ public class Gitlet implements Serializable {
 			GitLinkedList linked = new GitLinkedList();
 			saveGitLinkedList(linked, g.branch);
 		 } else if (command.equals("add")) {
-			String filename = args[1];
-			boolean check = new File(filename).exists();
+			String filename = fileName(args[1]);
+			boolean check = new File(args[1]).exists();
 			if (!check) {
 				System.out.println("File does not exist.");
 				return;
@@ -164,19 +164,19 @@ public class Gitlet implements Serializable {
 		} else if (command.equals("checkout")) {
 			if (args.length > 2) {
 				try {
-					File f = new File(".gitlet/commit" + args[1]);
+					File f = new File(".gitlet/commit" + fileName(args[1]));
 					if (!f.exists()) {
 						System.out.println("No commit with that id exists.");
 					}
 					Integer num = Integer.parseInt(args[1]);
-					String filename = args[2];
+					String filename = fileName(args[2]);
 					git.revertFile(num, filename);
 				} catch (IOException e) {
 					System.out.println("File does not exist in that commit.");
 					return;
 				}
 			}
-			String name = args[1];
+			String name = fileName(args[1]);
 			if (git.branches.contains(name)) {
 				if (git.branch.equals(name)) {
 					System.out.println("No need to checkout the current branch.");
@@ -195,18 +195,19 @@ public class Gitlet implements Serializable {
 				saveGitLinkedList(link, git.branch);
 			} else {
 				try {
-				revertFile((git.counter - 1), name);
+					revertFile((git.counter - 1), args[1]);
 				} catch (IOException e) {
 					System.out.println("File does not exist in the most recent commit, or no such branch exists.");
 					return;
 				}  
 			}
-		} else if (command.equals("hubert")) {
-			git.branches.add("hubert");
-			git.branch = "hubert";
-			GitLinkedList link = tryLoadingGitLinkedList("master");
-			GitLinkedList copy = new GitLinkedList(link, git.prev, "hubert", getDate(), git.counter);
-			saveGitLinkedList(copy, git.branch);
+		} else if (command.equals("branch")) {
+			String b = args[1];
+			if (git.branches.contains(b)) {
+				System.out.println("A branch with that name already exists.");
+				return;
+			}
+			git.branches.add(b);
 		}	
 		saveGitlet(git);
 	}
@@ -335,11 +336,11 @@ public class Gitlet implements Serializable {
   	}
 
   	private static void revertFile(Integer commitID, String filename) throws IOException {
-		Gitlet g = tryLoadingGitlet();
+  		String file = fileName(filename);
 		Path TO = Paths.get(filename);
-		File f = new File(".gitlet/commit" + commitID + "/" + filename);
+		File f = new File(".gitlet/commit" + commitID + "/" + fileName(filename));
 		while (f.exists() == false && commitID > 0) {
-			f = new File(".gitlet/commit" + (commitID - 1) + "/" + filename);
+			f = new File(".gitlet/commit" + (commitID - 1) + "/" + fileName(filename));
 		}
     	Path FROM = Paths.get(f.getPath());
     	//overwrite existing file, if exists

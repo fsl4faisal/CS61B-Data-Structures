@@ -85,10 +85,10 @@ public class GitletPublicTest {
         gitlet("add", wugFileName);
         gitlet("commit", "added wug");
         writeFile(wugFileName, "This is not a wug.");
-        gitlet("checkout", wugFileName);
+        //gitlet("checkout", wugFileName);
         assertEquals(wugText, getText(wugFileName));
     }
-
+    
     /**
      * Tests that log prints out commit messages in the right order. Involves
      * init, add, commit, and log.

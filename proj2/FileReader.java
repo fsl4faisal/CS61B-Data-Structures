@@ -21,35 +21,10 @@ import java.text.*;
 
 public class FileReader {
 	
-	private static void revertFile(Integer commitID, String filename) throws IOException {
-		Path TO = Paths.get(filename);
-		File f = new File(".gitlet/commit" + commitID + "/" + filename);
-		System.out.println(f.exists());
-		while (!f.exists() && commitID > 0) {
-			f = new File(".gitlet/commit" + (commitID - 1) + "/" + filename);
-			System.out.println(f.exists());
-		}
-    	Path FROM = Paths.get(f.getPath());
-    	//overwrite existing file, if exists
-    	CopyOption[] options = new CopyOption[]{
-      	StandardCopyOption.REPLACE_EXISTING,
-      	StandardCopyOption.COPY_ATTRIBUTES
-    	}; 
-    Files.copy(FROM, TO, options);
-  	}
-
+	
 	public static void main(String[] args) throws IOException{
-		FileReader.revertFile(2, "wug.txt");
-		String m = "====";
-		String n = "Commit 2";
-		String h = m + System.getProperty("line.separator") + n + System.getProperty("line.separator") + "what" + System.getProperty("line.separator");
-
-		 System.out.println(h);
-		 System.out.println(m);
-		 System.out.println(n);
-		 System.out.println("whatsup");
-		 System.out.println("");
-		 System.out.println(m);
+		
+		
 		Path FROM = Paths.get("hello.txt");
     	Path TO = Paths.get("test_files/hi.txt");
     	//overwrite existing file, if exists
