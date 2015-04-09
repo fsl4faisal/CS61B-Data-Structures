@@ -23,7 +23,13 @@ public class FileReader {
 	
 	private static void revertFile(Integer commitID, String filename) throws IOException {
 		Path TO = Paths.get(filename);
-    	Path FROM = Paths.get(".gitlet/commit" + commitID + "/" + filename);
+		File f = new File(".gitlet/commit" + commitID + "/" + filename);
+		System.out.println(f.exists());
+		while (!f.exists() && commitID > 0) {
+			f = new File(".gitlet/commit" + (commitID - 1) + "/" + filename);
+			System.out.println(f.exists());
+		}
+    	Path FROM = Paths.get(f.getPath());
     	//overwrite existing file, if exists
     	CopyOption[] options = new CopyOption[]{
       	StandardCopyOption.REPLACE_EXISTING,
@@ -33,7 +39,7 @@ public class FileReader {
   	}
 
 	public static void main(String[] args) throws IOException{
-		FileReader.revertFile(3, "wug.txt");
+		FileReader.revertFile(2, "wug.txt");
 		String m = "====";
 		String n = "Commit 2";
 		String h = m + System.getProperty("line.separator") + n + System.getProperty("line.separator") + "what" + System.getProperty("line.separator");

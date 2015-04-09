@@ -119,7 +119,7 @@ public class Gitlet implements Serializable {
 			saveGitLinkedList(link, git.branch);
 		} else if (command.equals("rm")) {
 			String filename = args[1];
-			if (git.staged.contains(filename) || git.prev.contains(filename)) {
+			if (!git.staged.contains(filename) && !git.prev.contains(filename)) {
 				System.out.println("No reason to remove the file.");
 				return;
 			}
@@ -132,7 +132,6 @@ public class Gitlet implements Serializable {
 				System.out.println(result);
 				copy = copy.next;
 			}
-			saveGitLinkedList(link, git.branch);
 		} else if (command.equals("find")) {
 			GitLinkedList link = tryLoadingGitLinkedList(git.branch);
 			String message = args[1];
@@ -178,10 +177,6 @@ public class Gitlet implements Serializable {
 				}
 			}
 			String name = args[1];
-			if (!git.branches.contains(name)) {
-				System.out.println("File does not exist in the most recent commit, or no such branch exists.");
-				return;
-			}
 			if (git.branches.contains(name)) {
 				if (git.branch.equals(name)) {
 					System.out.println("No need to checkout the current branch.");
@@ -202,11 +197,16 @@ public class Gitlet implements Serializable {
 				try {
 				revertFile((git.counter - 1), name);
 				} catch (IOException e) {
+					System.out.println("File does not exist in the most recent commit, or no such branch exists.");
 					return;
 				}  
 			}
 		} else if (command.equals("hubert")) {
-
+			git.branches.add("hubert");
+			git.branch = "hubert";
+			GitLinkedList link = tryLoadingGitLinkedList("master");
+			GitLinkedList copy = new GitLinkedList(link, git.prev, "hubert", getDate(), git.counter);
+			saveGitLinkedList(copy, git.branch);
 		}	
 		saveGitlet(git);
 	}
@@ -337,7 +337,11 @@ public class Gitlet implements Serializable {
   	private static void revertFile(Integer commitID, String filename) throws IOException {
 		Gitlet g = tryLoadingGitlet();
 		Path TO = Paths.get(filename);
-    	Path FROM = Paths.get(".gitlet/commit" + commitID + "/" + filename);
+		File f = new File(".gitlet/commit" + commitID + "/" + filename);
+		while (f.exists() == false && commitID > 0) {
+			f = new File(".gitlet/commit" + (commitID - 1) + "/" + filename);
+		}
+    	Path FROM = Paths.get(f.getPath());
     	//overwrite existing file, if exists
     	CopyOption[] options = new CopyOption[]{
       	StandardCopyOption.REPLACE_EXISTING,
