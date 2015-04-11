@@ -22,17 +22,26 @@ import java.text.*;
 public class FileReader {
 	
 	
+
+	
 	public static void main(String[] args) throws IOException{
-		
-		
-		Path FROM = Paths.get("hello.txt");
-    	Path TO = Paths.get("test_files/hi.txt");
-    	//overwrite existing file, if exists
-    	CopyOption[] options = new CopyOption[]{
-      	StandardCopyOption.REPLACE_EXISTING,
-      	StandardCopyOption.COPY_ATTRIBUTES
-    }; 
-    Files.copy(FROM, TO, options);
-  } 
-  		}
+		System.out.print("Enter your name: ");
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+ 
+      String userName = null;
+ 
+      //  read the username from the command-line; need to use try/catch with the
+      //  readLine() method
+      try {
+         userName = br.readLine();
+      } catch (IOException ioe) {
+         System.out.println("IO error trying to read your name!");
+         System.exit(1);
+      }
+ 
+      System.out.println("Thanks for the name, " + userName);
+
+  	}
+
+  }
 	

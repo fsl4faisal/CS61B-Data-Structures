@@ -85,7 +85,57 @@ public class GitletPublicTest {
         gitlet("add", wugFileName);
         gitlet("commit", "added wug");
         writeFile(wugFileName, "This is not a wug.");
-        //gitlet("checkout", wugFileName);
+        gitlet("checkout", wugFileName);
+        assertEquals(wugText, getText(wugFileName));
+    }
+
+    /**
+     * Tests that checking out branch will restore all the versions of the files
+     * from the head commit of given branch. Involves init, add, commit, and checkout.
+     */
+    @Test
+    public void testCheckoutBranch() {
+        String wugFileName = TESTING_DIR + "wug.txt";
+        String wugText = "This is a wug.";
+        createFile(wugFileName, wugText);
+        gitlet("init");
+        gitlet("add", wugFileName);
+        gitlet("commit", "added wug");
+        gitlet("branch", "hubert");
+        gitlet("checkout", "hubert");
+        writeFile(wugFileName, "This is not a wug.");
+        gitlet("checkout", "master");
+        assertEquals(wugText, getText(wugFileName));
+    }
+
+    @Test
+    public void testReset() {
+        String wugFileName = TESTING_DIR + "wug.txt";
+        String wugText = "This is a wug.";
+        createFile(wugFileName, wugText);
+        String wug2FileName = TESTING_DIR + "hubert.txt";
+        String wug2Text = "Hi Hubert.";
+        createFile(wug2FileName, wug2Text);
+        String wug3FileName = TESTING_DIR + "hi.txt";
+        String wug3Text = "Hi.";
+        createFile(wug3FileName, wug3Text);
+
+        gitlet("init");
+        gitlet("add", wugFileName);
+        gitlet("commit", "added wug");
+        gitlet("add", wug2FileName);
+        gitlet("commit", "yolo");
+        System.out.println(gitlet("find", "added wug"));
+        String s = gitlet("find", "added wug");
+        gitlet("reset", s);
+        gitlet("add", wug3FileName);
+        gitlet("commit", "new");
+        gitlet("branch", "hubert");
+        gitlet("checkout", "hubert");
+        writeFile(wug2FileName, "This is not a wug.");
+        writeFile(wugFileName, "This is not a wug.");
+        gitlet("checkout", "master");
+        assertEquals("This is not a wug.", getText(wug2FileName));
         assertEquals(wugText, getText(wugFileName));
     }
     
