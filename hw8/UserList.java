@@ -70,7 +70,29 @@ public class UserList {
     **/ 
     public static void partition(String sortFeature, CatenableQueue<User> qUnsorted, int pivot, 
         CatenableQueue<User> qLess, CatenableQueue<User> qEqual, CatenableQueue<User> qGreater){
-        //Replace with solution.
+        if (sortFeature.equals("id")) {
+            while (qUnsorted.size() != 0) {
+                User u = qUnsorted.dequeue();
+                if (u.getId() > pivot) {
+                    qGreater.enqueue(u);
+                } else if (u.getId() < pivot) {
+                    qLess.enqueue(u);
+                } else {
+                    qEqual.enqueue(u);
+                }
+            }
+        } else {
+           while (qUnsorted.size() != 0) {
+                User u = qUnsorted.dequeue();
+                if (u.getPagesPrinted() > pivot) {
+                    qGreater.enqueue(u);
+                } else if (u.getPagesPrinted() < pivot) {
+                    qLess.enqueue(u);
+                } else {
+                    qEqual.enqueue(u);
+                }
+            } 
+        }
     }
 
     /**
@@ -81,7 +103,38 @@ public class UserList {
     *   @param q is an unsorted CatenableQueue containing User items.
     **/
     public static void quickSort(String sortFeature, CatenableQueue<User> q){ 
-        //Replace with solution.
+        int index = (int) Math.random() * q.size();
+        int pivot = 0;
+        CatenableQueue<User> qLess = new CatenableQueue<User>();
+        CatenableQueue<User> qGreater = new CatenableQueue<User>();
+        CatenableQueue<User> qEqual = new CatenableQueue<User>();
+        if (sortFeature.equals("id")) {
+            pivot = q.nth(index).getId();
+            System.out.println(pivot);
+        } else {
+            pivot = q.nth(index).getPagesPrinted();
+        }
+        if (q.size() > 1) {
+            partition(sortFeature, q, pivot, qLess, qEqual, qGreater);
+        }
+        if (qLess.size() > 1) {
+            quickSort(sortFeature, qLess);
+        }
+        while (qLess.size() > 0) {
+            q.enqueue(qLess.dequeue());
+        }
+        if (qEqual.size() > 1) {
+            quickSort(sortFeature, qEqual);
+        }
+        while (qEqual.size() > 0) {
+            q.enqueue(qEqual.dequeue());
+        }
+        if (qGreater.size() > 1) { 
+            quickSort(sortFeature, qGreater);
+        }
+        while (qGreater.size() > 0) {
+            q.enqueue(qGreater.dequeue());
+        }
     }
 
     /**
@@ -101,8 +154,13 @@ public class UserList {
     *    contains one User from userQueue.
     **/
     public CatenableQueue<CatenableQueue<User>> makeQueueOfQueues(){
-        //Replace with solution.
-        return null;
+        CatenableQueue<CatenableQueue<User>> result = new CatenableQueue<CatenableQueue<User>>();
+        while (userQueue.size() > 0) {
+            CatenableQueue<User> temp = new CatenableQueue<User>();
+            temp.enqueue(userQueue.dequeue());
+            result.enqueue(temp);
+        }
+        return result;
     }
 
     /**
@@ -118,8 +176,34 @@ public class UserList {
     *       sorted from smallest to largest by their sortFeature.
     **/
     public static CatenableQueue<User> mergeTwoQueues(String sortFeature, CatenableQueue<User> q1, CatenableQueue<User> q2){
-        //Replace with solution.
-        return null;
+        CatenableQueue<User> result = new CatenableQueue<User>();
+        if (q1 != null || q2 != null) {
+            while (q1.size() > 0 || q2.size() > 0) {
+                User a = q1.dequeue();
+                User b = q2.dequeue();
+                int aS = 0;
+                int bS = 0;
+                if (sortFeature.equals("id")) {
+                    aS = a.getId();
+                    bS = b.getId();
+                } else {
+                    aS = a.getPagesPrinted();
+                    bS = b.getPagesPrinted();
+                }
+                if (q1.size() == 0) {
+                    result.enqueue(b);
+                } else if (q2.size() == 0) {
+                    result.enqueue(a);
+                } else {
+                    if (aS > bS) {
+                        result.enqueue(b);
+                    } else {
+                        result.enqueue(a);
+                    }
+                }
+            }
+        }
+        return result;
     }
 
     /**
@@ -129,8 +213,21 @@ public class UserList {
     *       sorting user IDs, sortFeatures equals "id". If we are sorting pages
     *       printed, sortFeatures equals "pages".
     **/
-    public void mergeSort(String sortFeature){
-        //Replace with solution.
+    public void mergeSort(String sortFeature) {
+        CatenableQueue<CatenableQueue<User>> qoQ = makeQueueOfQueues();
+        while (qoQ.size() > 1) {
+            CatenableQueue<CatenableQueue<User>> result = new CatenableQueue<CatenableQueue<User>>();
+            while (qoQ.size() > 0) {
+                if (qoQ.size() == 1) {
+                    result.enqueue(qoQ.dequeue());
+                }
+                CatenableQueue<User> a = qoQ.dequeue();
+                CatenableQueue<User> b = qoQ.dequeue();
+                result.enqueue(mergeTwoQueues(sortFeature, a, b));
+            }
+            qoQ = result;      
+        }
+        userQueue = qoQ.dequeue();
     }
 
     /**
@@ -138,7 +235,7 @@ public class UserList {
     *   If two Users have printed the same number of pages, the User with the smaller user ID is first.
     **/
     public void sortByBothFeatures(){
-        //Replace with solution. Don't overthink this one!
+        quickSort("id");
     }
 
 
@@ -258,7 +355,7 @@ public class UserList {
         // your code is bug-free!
 
         // Uncomment the following line when ready
-        // jh61b.junit.textui.runClasses(UserList.class);
+        jh61b.junit.textui.runClasses(UserList.class);
     }
 
 }
